@@ -9292,6 +9292,12 @@ public final class Settings {
                 "accessibility_magnification_mode";
 
         /**
+         * Whether to show advanced powermenu on keyguard
+         * @hide
+         */
+        public static final String ADVANCED_REBOOT_KEYGUARD = "advanced_reboot_keyguard";
+
+        /**
          * Magnification mode value that magnifies whole display.
          * @hide
          */
