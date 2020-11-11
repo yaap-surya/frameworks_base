@@ -107,6 +107,7 @@ public class FODCircleView extends ImageView {
 
     private boolean mIsBouncer;
     private boolean mIsDreaming;
+    private boolean mIsScreenTurnedOn;
     private boolean mIsCircleShowing;
     private boolean mIsScreenTurnedOn;
     private boolean mIsAnimating = false;
