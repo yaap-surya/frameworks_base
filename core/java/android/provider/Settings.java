@@ -5605,13 +5605,6 @@ public final class Settings {
         public static final String NOTIFICATION_PULSE_DURATION = "ambient_notification_light_duration";
 
         /**
-         * Whether to enable SmartSpace
-         * @hide
-         */
-        @Readable
-        public static final String SMART_SPACE = "smart_space";
-
-        /**
          * Whether to show qs footer Running Services icon
          * @hide
          */
