@@ -16,7 +16,7 @@ import dagger.Subcomponent;
 @Subcomponent(modules = {
         DefaultComponentBinder.class,
         DependencyProvider.class,
-        SystemUIBinder.class,
+        YaapSystemUIBinder.class,
         SystemUIModule.class,
         YaapSystemUIModule.class})
 public interface YaapSysUIComponent extends SysUIComponent {

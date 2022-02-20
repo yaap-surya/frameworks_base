@@ -85,6 +85,7 @@ android_library {
         "res-keyguard",
         "res-smartspace",
         "res",
+        "res-ambientmusic",
     ],
     static_libs: [
         "WindowManager-Shell",
@@ -126,6 +127,7 @@ android_library {
         "backgesture-google",
         "smartspace-google",
         "tensorflowlite_java",
+        "ambientmusic-google",
     ],
     manifest: "AndroidManifest.xml",
 

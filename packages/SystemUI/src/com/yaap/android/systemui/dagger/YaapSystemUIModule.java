@@ -19,7 +19,9 @@ import com.google.android.systemui.smartspace.KeyguardZenAlarmViewController;
 import com.google.android.systemui.smartspace.SmartSpaceController;
 
 import com.yaap.android.systemui.smartspace.KeyguardSmartspaceController;
+import com.yaap.android.systemui.YaapServices;
 
+import com.android.internal.logging.UiEventLogger;
 import com.android.keyguard.KeyguardUpdateMonitor;
 import com.android.keyguard.KeyguardViewController;
 import com.android.systemui.broadcast.BroadcastDispatcher;
@@ -59,6 +61,7 @@ import com.android.systemui.statusbar.phone.NotificationShadeWindowControllerImp
 import com.android.systemui.statusbar.phone.ShadeController;
 import com.android.systemui.statusbar.phone.ShadeControllerImpl;
 import com.android.systemui.statusbar.phone.StatusBarKeyguardViewManager;
+import com.android.systemui.statusbar.phone.StatusBar;
 import com.android.systemui.statusbar.policy.BatteryController;
 import com.android.systemui.statusbar.policy.BatteryControllerImpl;
 import com.android.systemui.statusbar.policy.ConfigurationController;
@@ -213,6 +216,12 @@ public abstract class YaapSystemUIModule {
 
     @Binds
     abstract ThemeOverlayController provideThemeOverlayController(YaapThemeOverlayController themeOverlayController);
+
+    @Provides
+    @SysUISingleton
+    static YaapServices provideYaapServices(Context context, UiEventLogger uiEventLogger, AlarmManager am, StatusBar sb) {
+        return new YaapServices(context, uiEventLogger, am, sb);
+    }
 
     // Google
     @Provides
