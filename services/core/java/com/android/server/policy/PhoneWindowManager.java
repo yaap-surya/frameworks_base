@@ -638,6 +638,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     private boolean mVolumeMusicControlActive;
     private boolean mVolumeMusicControl;
+    private int mVolumeMusicControlDelay;
+
 
     private class PolicyHandler extends Handler {
         @Override
@@ -775,6 +777,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.VOLUME_BUTTON_MUSIC_CONTROL), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.VOLUME_BUTTON_MUSIC_CONTROL_DELAY), false, this,
                     UserHandle.USER_ALL);
             updateSettings();
         }
@@ -2191,6 +2196,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mVolumeMusicControl = Settings.System.getIntForUser(resolver,
                     Settings.System.VOLUME_BUTTON_MUSIC_CONTROL, 0,
                     UserHandle.USER_CURRENT) != 0;
+            mVolumeMusicControlDelay = Settings.System.getIntForUser(resolver,
+                    Settings.System.VOLUME_BUTTON_MUSIC_CONTROL_DELAY, 500,
+                    UserHandle.USER_CURRENT);
 
             // Configure wake gesture.
             boolean wakeGestureEnabledSetting = Settings.Secure.getIntForUser(resolver,
@@ -3730,13 +3738,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     boolean notHandledMusicControl = false;
                     if (!interactive && mVolumeMusicControl && isMusicActive()) {
                         if (down) {
-                            int timeout = Settings.System.getIntForUser(mContext.getContentResolver(),
-                                    Settings.System.VOLUME_BUTTON_MUSIC_CONTROL_DELAY, 500, mCurrentUserId);
                             if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-                                scheduleLongPressKeyEvent(event, KeyEvent.KEYCODE_MEDIA_PREVIOUS, timeout);
+                                scheduleLongPressKeyEvent(event, KeyEvent.KEYCODE_MEDIA_PREVIOUS,
+                                        mVolumeMusicControlDelay);
                                 break;
                             } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-                                scheduleLongPressKeyEvent(event, KeyEvent.KEYCODE_MEDIA_NEXT, timeout);
+                                scheduleLongPressKeyEvent(event, KeyEvent.KEYCODE_MEDIA_NEXT,
+                                        mVolumeMusicControlDelay);
                                 break;
                             }
                         } else {
@@ -5825,7 +5833,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
      *    controlled by this device, or through remote submix).
      */
     private boolean isMusicActive() {
-        final AudioManager am = (AudioManager )mContext.getSystemService(Context.AUDIO_SERVICE);
+        final AudioManager am = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
         if (am == null) {
             Log.w(TAG, "isMusicActive: couldn't get AudioManager reference");
             return false;
@@ -5840,5 +5848,4 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         msg.setAsynchronous(true);
         mHandler.sendMessageDelayed(msg, timeout);
     }
-
 }
